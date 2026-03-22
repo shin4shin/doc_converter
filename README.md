@@ -1,5 +1,7 @@
 # 문서 변환기
 
+![version](https://img.shields.io/badge/version-v1.1.0-blue) ![platform](https://img.shields.io/badge/platform-Windows-lightgrey)
+
 HWP, HWPX, DOCX, PDF 파일을 서로 변환할 수 있는 Windows용 데스크톱 애플리케이션입니다.
 
 ---
@@ -109,6 +111,23 @@ python doc_converter_all.py
 - 스캔된 PDF(이미지 기반)는 텍스트 추출이 되지 않습니다.
 - 이미지, 복잡한 서식은 변환 과정에서 일부 손실될 수 있습니다.
 - LibreOffice가 설치되어 있지 않으면 HWP, HWPX, DOCX ↔ PDF 변환이 동작하지 않습니다.
+
+## 변경 이력
+
+### v1.1.0 (2026-03-22)
+- DOCX → HWP / HWPX 변환 추가
+- PDF → HWP / HWPX 변환 추가
+- GUI 버튼 활성화 버그 수정 (docx, pdf 선택 시 hwp/hwpx 버튼 비활성화 문제)
+- Windows LibreOffice 경로 자동 탐색 개선 (glob 패턴으로 버전 무관 탐색)
+- 변환 엔진과 GUI를 단일 파일(doc_converter_all.py)로 통합
+- import 오류 방지를 위한 의존성 검증 로직 추가
+
+### v1.0.0
+- 최초 릴리스
+- HWP / HWPX → PDF, DOCX, TXT 변환 지원
+- DOCX → PDF, TXT 변환 지원
+- PDF → TXT, DOCX 변환 지원
+- tkinter 기반 GUI 제공
 
 ---
 
