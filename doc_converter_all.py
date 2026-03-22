@@ -1,9 +1,13 @@
+#!/usr/bin/env python3
 """
 문서 변환기 GUI — 단일 파일 버전
 별도 파일 없이 이 파일 하나만으로 실행됩니다.
 실행: python doc_converter_gui.py
 """
 
+# ════════════════════════════════════════════
+# 변환 엔진 (doc_converter 내장)
+# ════════════════════════════════════════════
 """
 문서 형식 변환기 (HWP / HWPX ↔ DOCX ↔ PDF)
 지원 변환:
@@ -459,6 +463,14 @@ def pdf_to_hwp(src: Path, dst: Path):
         print(f"  ℹ️  HWP 대신 HWPX 로 저장됩니다: {hwpx_dst.name}")
 
 
+def pdf_to_hwpx(src: Path, dst: Path):
+    """PDF → HWPX (PDF → DOCX → HWPX 경유)"""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        docx_tmp = Path(tmpdir) / (src.stem + ".docx")
+        pdf_to_docx(src, docx_tmp)
+        docx_to_hwpx_file(docx_tmp, dst)
+
+
 # ─────────────────────────────────────────────
 # 라우터
 # ─────────────────────────────────────────────
@@ -477,6 +489,7 @@ CONVERTERS = {
     ("pdf",  "txt"):  pdf_to_txt,
     ("pdf",  "docx"): pdf_to_docx,
     ("pdf",  "hwp"):  pdf_to_hwp,
+    ("pdf",  "hwpx"): pdf_to_hwpx,
 }
 
 
@@ -586,7 +599,7 @@ SUPPORT = {
     "hwp":  ["pdf", "docx", "txt"],
     "hwpx": ["pdf", "docx", "txt"],
     "docx": ["pdf", "txt", "hwp", "hwpx"],
-    "pdf":  ["txt", "docx"],
+    "pdf":  ["txt", "docx", "hwp", "hwpx"],
 }
 
 EXT_LABEL = {
@@ -614,7 +627,7 @@ ENTRY_BG = "#252538"
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("문서 변환기")
+        self.title("문서 변환기 v1.1.0")
         self.resizable(False, False)
         self.configure(bg=BG)
 
